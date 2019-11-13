@@ -24,6 +24,143 @@
 /* Copyright fuhome.net 未来之家 实验室，让科技融入生活				 */
 /*********************************************************************/
 
+U8 DATA_LENGTH = 9;
+U8 DATA_GET[]=  { 0x7E, 0, 0, 0, 0, 0, 0, 0, 0x7E};
+ U8 SRCHeader = 0x7E;
+ U8 SRCTail = 0x7E;
+ U8 SRCDeviceID = 0x33;
+ U8 SRCCommunicationType = 0x01;
+
+sbit Buzzer    =  P5 ^ 4;           	// 蜂鸣器
+sbit LED      =  P3 ^ 2;         		  // LED灯
+
+void Buzzer_Actions_Status(unsigned char status){
+
+	if(status){
+		Buzzer = 0;
+	}else{
+		Buzzer = 1;
+	}
+
+}
+
+///校验数据准确性 做CRC校验
+unsigned char CheckData(unsigned char *mes){
+    unsigned char crc = 0;
+    unsigned char len = 6;
+    unsigned char i=0;
+    unsigned char cs=0;
+    unsigned char message[] = {0,0,0,0,0,0};
+    unsigned char *s = message;
+    for( cs=0;cs<len;cs++){
+        
+        s[cs] = mes[cs+1];
+    }
+    
+    
+    while(len--)
+    {
+        crc ^= *s++;
+        for(i = 0;i < 8;i++)
+        {
+            if(crc & 0x01)
+            {
+                crc = (crc >> 1) ^ 0x8c;
+            }
+            else crc >>= 1;
+        }
+    }
+    return crc;
+}
+
+
+
+void SendAckData(unsigned char *RES_DATA) {
+
+    unsigned char DATA_SEND[]= { 0x7E, 0x00,0x01, 0x00, 0x02, 0x00, 0x00, 0x00, 0x7E};
+	unsigned int i;
+
+    DATA_SEND[0]= SRCHeader;
+    DATA_SEND[1]= SRCDeviceID;
+    DATA_SEND[2]= SRCCommunicationType;
+    DATA_SEND[3]= RES_DATA[3];
+    DATA_SEND[5]= RES_DATA[5];
+    DATA_SEND[6]= RES_DATA[6];
+    DATA_SEND[DATA_LENGTH-1]= SRCTail;
+    DATA_SEND[7]= CheckData(DATA_SEND);
+
+    for(i=0;i<DATA_LENGTH;i++)DATA[i]=DATA_SEND[i];
+			Send_Data(2,DATA_LENGTH);
+
+}
+
+void ResponseData(unsigned char *RES_DATA) {
+	
+
+	if(RES_DATA[1]== 0x33 &&  RES_DATA[2]== 0x01){
+		//tudo 校验错误
+		if(  RES_DATA[4]== 0x01 && (CheckData(RES_DATA) == RES_DATA[DATA_LENGTH-2])) {
+				switch(RES_DATA[3]){
+					case 0x00:{//心跳包
+						if( RES_DATA[5]==0x00 && RES_DATA[6]==0x00){
+								//if(DATA_Temphui[2]==1)
+							//	{
+							//			DATA_Temphui[2]=0;//复位将其  用于检测是否收到数据
+										
+										RES_DATA[3]=0x04;//高两位数据 4代表温湿度指令
+										RES_DATA[5]= 0X09;//DATA_Temphui[0];//高两位数据
+										RES_DATA[6]= 0X09;//DATA_Temphui[1];//进制转换  低两位数据位
+							//	}	
+																
+							SendAckData(RES_DATA);
+						//	Led_Actions_NumAndMS(1,80);
+						}
+						
+
+						break;
+					};
+					case 0x01:{//转弯和角度
+						
+						break;
+					};
+					case 0x02:{//喇叭
+						if( RES_DATA[6]==0x02){
+							 Buzzer_Actions_Status(0);
+							SendAckData(RES_DATA);
+						}else if( RES_DATA[6]==0x01){
+							Buzzer_Actions_Status(1);
+							SendAckData(RES_DATA);
+						}
+						break;
+					};
+					case 0x03:{//灯
+						if( RES_DATA[6]==0x02){
+					//	Led_Actions_Status(1);
+							SendAckData(RES_DATA);
+						}else if( RES_DATA[6]==0x01){
+							//Led_Actions_Status(0);
+							SendAckData(RES_DATA);
+						}
+						break;
+					};
+
+					default:
+						break;
+					
+				}
+			}
+		
+		
+		
+		
+		
+	}
+		
+
+}
+
+
+
 
 /*******************************************/
 /* 功能：处理接收到的数据包                */
@@ -36,6 +173,13 @@ void App_Bag(U8 Index,U8 xdata *p,U16 len)
 	unsigned int i;
 	if(Index==2)
 	{
+		
+			if(len == 9 && p[0] ==0x7E &&  p[8] ==0x7E) {
+
+	    ResponseData(p);
+	}
+
+		
 		for(i=0;i<len;i++)
 		{
 			#if DEBUG

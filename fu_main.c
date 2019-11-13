@@ -22,6 +22,10 @@
 /* Copyright fuhome.net 未来之家 实验室，让科技融入生活				 */
 /*********************************************************************/
 
+sbit Buzzer    =  P5 ^ 4;           	// 蜂鸣器
+sbit LED      =  P3 ^ 2;         		  // LED灯
+
+
 //所有端口初始化成为通用IO
 void GPIOInit()
 {
@@ -48,6 +52,7 @@ void GPIOInit()
 void main(void)
 {
 	unsigned char t=0,i=0;
+	
 
 	GPIOInit();
 	#if DEBUG
@@ -61,6 +66,8 @@ void main(void)
 	/* 网络初始化 */
 	net_init();
 
+	Buzzer = 0;//关闭蜂鸣器
+  LED = 0;
 	while(1)
 	{
 		//此行代码，最好放到while(1)中的最前面

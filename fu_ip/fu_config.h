@@ -18,7 +18,7 @@
 /*IP 相关参数 宏定义设置*/
 
 #define DEBUG 1//是否开启调试信息，调试信息采用com1口发送数据
-#define NET_DHCP 1//是否启用DHCP动态获取IP功能
+#define NET_DHCP 0//是否启用DHCP动态获取IP功能
 #define DHCP_TIME 1800//DHCP续约时间，1800秒，30分钟
 #define NET_TCP  1//是否启动TCP通用功能
 #define NET_DNS	 1//是否启用DNS域名解析功能

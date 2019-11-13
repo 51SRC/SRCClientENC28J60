@@ -64,8 +64,8 @@ void net_init(void)
 
 	//初始化FUIP的使用场景，要与FU_CONN配合使用，不要超出FU_CONN指定的连接数
 	Set_Re_HOST(1,TCP_SERVER,"0.0.0.0",80);//Web服务器，用于设置IP，以后版本加上此功能
-	Set_Re_HOST(2,TCP_CLIENT,"192.168.0.106",4001);
-	Set_Re_HOST(3,TCP_CLIENT,"47.104.19.111",4001);//47.104.19.111
+	//Set_Re_HOST(2,TCP_CLIENT,"192.168.0.106",4001);
+	Set_Re_HOST(2,TCP_CLIENT,"47.104.19.111",4001);//47.104.19.111
 //	Set_Re_HOST(2,UDP_CLIENT,"0.0.0.0",123);	//远程NTP服务器
 //	Set_Re_HOST(2,TCP_SERVER,"0.0.0.0",8080);
 //	Set_Re_HOST(3,TCP_SERVER,"0.0.0.0",8080);	//两个TCP服务器的本地端口相同，表示允许同时连接两个客户端，多写几行表示允许更多的客户端

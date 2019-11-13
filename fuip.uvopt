@@ -25,7 +25,7 @@
     <ToolsetNumber>0x0</ToolsetNumber>
     <ToolsetName>MCS-51</ToolsetName>
     <TargetOption>
-      <CLK51>24000000</CLK51>
+      <CLK51>35000000</CLK51>
       <OPTTT>
         <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
@@ -76,27 +76,15 @@
         <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
       <CpuCode>255</CpuCode>
-      <Books>
-        <Book>
-          <Number>0</Number>
-          <Title>Data Sheet</Title>
-          <Path>DATASHTS\ATMEL\AT89C52_DS.PDF</Path>
-        </Book>
-        <Book>
-          <Number>1</Number>
-          <Title>Instruction Set Manual</Title>
-          <Path>DATASHTS\ATMEL\AT_C51ISM.PDF</Path>
-        </Book>
-      </Books>
       <DllOpt>
         <SimDllName>S8051.DLL</SimDllName>
         <SimDllArguments></SimDllArguments>
         <SimDlgDllName>DP51.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-p52</SimDlgDllArguments>
+        <SimDlgDllArguments>-pDP8051</SimDlgDllArguments>
         <TargetDllName>S8051.DLL</TargetDllName>
         <TargetDllArguments></TargetDllArguments>
         <TargetDlgDllName>TP51.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-p52</TargetDlgDllArguments>
+        <TargetDlgDllArguments>-p51</TargetDlgDllArguments>
       </DllOpt>
       <DebugOpt>
         <uSim>1</uSim>
@@ -194,10 +182,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>17</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>49</TopLine>
-      <CurrentLine>77</CurrentLine>
+      <TopLine>37</TopLine>
+      <CurrentLine>25</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\fu_main.c</PathWithFileName>
       <FilenameWithoutPath>fu_main.c</FilenameWithoutPath>
@@ -300,8 +288,8 @@
       <Focus>0</Focus>
       <ColumnNumber>15</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>27</TopLine>
-      <CurrentLine>41</CurrentLine>
+      <TopLine>24</TopLine>
+      <CurrentLine>93</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\fu_ip\fu_app.c</PathWithFileName>
       <FilenameWithoutPath>fu_app.c</FilenameWithoutPath>
@@ -330,10 +318,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>28</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>309</TopLine>
-      <CurrentLine>324</CurrentLine>
+      <TopLine>38</TopLine>
+      <CurrentLine>67</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\fu_ip\fu_config.c</PathWithFileName>
       <FilenameWithoutPath>fu_config.c</FilenameWithoutPath>
@@ -426,9 +414,9 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>36</ColumnNumber>
+      <ColumnNumber>54</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>514</TopLine>
+      <TopLine>313</TopLine>
       <CurrentLine>328</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\fu_ip\fu_receive.c</PathWithFileName>
@@ -442,10 +430,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>14</ColumnNumber>
+      <ColumnNumber>21</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>38</TopLine>
-      <CurrentLine>39</CurrentLine>
+      <TopLine>143</TopLine>
+      <CurrentLine>159</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\fu_ip\fu_send.c</PathWithFileName>
       <FilenameWithoutPath>fu_send.c</FilenameWithoutPath>
