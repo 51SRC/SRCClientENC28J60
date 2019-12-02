@@ -5,6 +5,8 @@
 #include "fu_config.h"
 #include "fu_receive.h"
 #include "fu_app.h"
+#include "DHT11.h"
+
 #if DEBUG
 	#include "uart.h"
 #endif
@@ -84,6 +86,11 @@ void main(void)
 				Send_Data(3,2);
 			}
 		}
+		
+				if(DHT11_Read_Data(&DATA_Temphui[0],&DATA_Temphui[1])==0)//ÎÂÊª¶È¼ì²â
+			{
+				 DATA_Temphui[2]=1;
+			}
 
 		enc28j60_runtime();
 	}

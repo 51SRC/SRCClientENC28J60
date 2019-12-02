@@ -32,7 +32,7 @@ U8 xdata FU_MAC[6]={0x00,0x12,0X34,0X56,0X78,0X90};//本地MAC
 	U8 xdata FU_SubnetMask[4]={255,255,255,0};//子网掩码
 	U8 xdata FU_GateWay[4]={255,255,255,255}; //默认网关
 #else
-	U8 xdata FU_LoaclIP[4]={192,168,0,150};//本地IP地址
+	U8 xdata FU_LoaclIP[4]={192,168,0,101};//本地IP地址133/101
 	U8 xdata FU_SubnetMask[4]={255,255,255,0};//子网掩码
 	U8 xdata FU_GateWay[4]={192,168,0,1}; //默认网关
 #endif
