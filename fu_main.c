@@ -26,6 +26,47 @@
 
 sbit Buzzer    =  P5 ^ 4;           	// 蜂鸣器
 sbit LED      =  P3 ^ 2;         		  // LED灯
+	static	 unsigned int   Timer4_Count=1;
+    unsigned char RES_DATA[]= { 0x7E, 0x00,0x01, 0x00, 0x02, 0x00, 0x00, 0x00, 0x7E};
+
+
+void Timer4Init(void)		//5毫秒@11.0592MHz
+{
+	T4T3M |= 0x20;		//定时器时钟1T模式
+	T4L = 0x00;		//设置定时初值
+	T4H = 0x28;		//设置定时初值
+	T4T3M |= 0x80;		//定时器4开始计时
+		IE2 |= 0x40;		//开定时器4中断
+		EA=1; 	//总中断开启
+}
+
+
+//中断服务程序
+void Timer4_interrupt() interrupt 20           //中断入口
+
+{
+
+
+		if(Timer4_Count>=2500){
+			Timer4_Count = 1;
+			
+
+			if(DATA_Temphui[2]==1)
+			{
+					DATA_Temphui[2]=0;//复位将其  用于检测是否收到数据
+					
+					RES_DATA[3]=0x04;//高两位数据 4代表温湿度指令
+					RES_DATA[5]= DATA_Temphui[0];//高两位数据
+					RES_DATA[6]= DATA_Temphui[1];//进制转换  低两位数据位
+			}
+			
+			SendAckData(RES_DATA);
+		}else{
+			
+		Timer4_Count++;
+		}
+}
+
 
 
 //所有端口初始化成为通用IO
@@ -60,7 +101,10 @@ void main(void)
 	#if DEBUG
 		Uart1_Init();
 	#endif
+	
+	
 	Timer_Init();
+Timer4Init();
 
 	/* 硬件初始化 */
 	enc28j60_init();//必须要放在Timer_Init()后面，要不初始化不成功就会卡死
@@ -89,8 +133,13 @@ void main(void)
 		
 				if(DHT11_Read_Data(&DATA_Temphui[0],&DATA_Temphui[1])==0)//温湿度检测
 			{
+				
 				 DATA_Temphui[2]=1;
+				 
+						
+				 
 			}
+		
 
 		enc28j60_runtime();
 	}

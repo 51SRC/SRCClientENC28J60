@@ -35,4 +35,7 @@ void App_TCP_Bag(void);
 
 void App_Bag(U8 Index,U8 xdata *p,U16 len);
 
+
+void SendAckData(unsigned char *RES_DATA);
+
 #endif 

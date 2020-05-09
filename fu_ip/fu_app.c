@@ -167,7 +167,7 @@ void ResponseData(unsigned char *RES_DATA) {
 					};
 					case 0xFF:{//÷ÿ∆Ù
 				  	SendAckData(RES_DATA);
-						IAP_CONTR = 0X60;
+						IAP_CONTR = 0X20;
 						break;
 					};
 
