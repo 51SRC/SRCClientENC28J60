@@ -24,7 +24,7 @@ xdata struct _ReHost ReHost[FU_CONN+1];//通信连接数
 
 /* 相关参数设置,指定IP */
 U8 code FU_MACIP[6]={255,255,255,255,0xff,0xff};//广播地址
-U8 xdata FU_MAC[6]={0x00,0x12,0X34,0X56,0X78,0X90};//本地MAC
+U8 xdata FU_MAC[6]={0x02,0x12,0X34,0X56,0X78,0X90};//本地MAC
 
 #if NET_DHCP
 	/* 相关参数设置,自动获取IP */
@@ -32,7 +32,7 @@ U8 xdata FU_MAC[6]={0x00,0x12,0X34,0X56,0X78,0X90};//本地MAC
 	U8 xdata FU_SubnetMask[4]={255,255,255,0};//子网掩码
 	U8 xdata FU_GateWay[4]={255,255,255,255}; //默认网关
 #else
-	U8 xdata FU_LoaclIP[4]={192,168,0,101};//本地IP地址133/101
+	U8 xdata FU_LoaclIP[4]={192,168,0,102};//本地IP地址102/101
 	U8 xdata FU_SubnetMask[4]={255,255,255,0};//子网掩码
 	U8 xdata FU_GateWay[4]={192,168,0,1}; //默认网关
 #endif

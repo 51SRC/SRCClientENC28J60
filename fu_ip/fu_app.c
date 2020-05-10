@@ -29,8 +29,8 @@ U8 DATA_LENGTH = 9;
 U8 DATA_GET[]=  { 0x7E, 0, 0, 0, 0, 0, 0, 0, 0x7E};
  U8 SRCHeader = 0x7E;
  U8 SRCTail = 0x7E;
- U8 SRCDeviceID = 0x01;
- U8 SRCCommunicationType = 0x01;
+ U8 SRCDeviceID = 0x02;
+ U8 SRCAID = 0x01;
 
 sbit Buzzer    =  P5 ^ 4;           	// ·äÃùÆ÷
 sbit LED      =  P3 ^ 2;         		  // LEDµÆ
@@ -109,7 +109,7 @@ void SendAckData(unsigned char *RES_DATA) {
 
     DATA_SEND[0]= SRCHeader;
     DATA_SEND[1]= SRCDeviceID;
-    DATA_SEND[2]= SRCCommunicationType;
+    DATA_SEND[2]= SRCAID;
     DATA_SEND[3]= RES_DATA[3];
     DATA_SEND[5]= RES_DATA[5];
     DATA_SEND[6]= RES_DATA[6];
@@ -124,7 +124,7 @@ void SendAckData(unsigned char *RES_DATA) {
 void ResponseData(unsigned char *RES_DATA) {
 	
 
-	if(RES_DATA[1]== SRCDeviceID &&  RES_DATA[2]== 0x01){
+	if(RES_DATA[1]== SRCDeviceID &&  RES_DATA[2]== SRCAID){
 		
 		if(  RES_DATA[4]== 0x01 && (CheckData(RES_DATA) == RES_DATA[DATA_LENGTH-2])) {
 				switch(RES_DATA[3]){
