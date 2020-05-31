@@ -24,11 +24,11 @@
 /* Copyright fuhome.net 未来之家 实验室，让科技融入生活				 */
 /*********************************************************************/
 
-sbit Buzzer    =  P5 ^ 4;           	// 蜂鸣器
-sbit LED      =  P3 ^ 2;         		  // LED灯
-	static	 unsigned int   Timer4_Count=1;
-    unsigned char RES_DATA[]= { 0x7E, 0x00,0x01, 0x00, 0x02, 0x00, 0x00, 0x00, 0x7E};
 
+unsigned char RES_DATA[]= { 0X23, 0X23, 0X02, 0XFE, 0x53, 0x52, 0x43, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x31, 0x01, 0x00, 0x0B, 0x14, 0x05, 0x18, 0x15, 0x24, 0x38, 0x02, 0X23, 0X24, 0X02, 0X02, 0xB0};
+unsigned char RES_LEN= 36;
+
+//U8 SRCCID[] = {"SRC00000000000001"};// 0x52, 0x43, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x31
 
 void Timer4Init(void)		//5毫秒@11.0592MHz
 {
@@ -43,11 +43,20 @@ void Timer4Init(void)		//5毫秒@11.0592MHz
 
 //中断服务程序
 void Timer4_interrupt() interrupt 20           //中断入口
-
 {
-
-
-		if(Timer4_Count>=2500){
+		
+		if(Timer4_Count>=2000){
+			
+				
+			unsigned char  light_status = LED ? 0x02 : 0x01;
+			unsigned char buzzy_status = Buzzer ? 0x02 : 0x01;
+		unsigned char j = 4;
+		
+//			U8 *SRCCID = "SRC00000000000001";
+//		for(j=4;j<=21;j++){
+//			RES_DATA[j] = SRCCID[j-4];
+//		}		
+		
 			Timer4_Count = 1;
 			
 
@@ -55,12 +64,16 @@ void Timer4_interrupt() interrupt 20           //中断入口
 			{
 					DATA_Temphui[2]=0;//复位将其  用于检测是否收到数据
 					
-					RES_DATA[3]=0x04;//高两位数据 4代表温湿度指令
-					RES_DATA[5]= DATA_Temphui[0];//高两位数据
-					RES_DATA[6]= DATA_Temphui[1];//进制转换  低两位数据位
 			}
+
+			RES_DATA[31] = DATA_Temphui[0];
+			RES_DATA[32] = 	DATA_Temphui[1];
+			RES_DATA[33] = light_status;
+			RES_DATA[34] = buzzy_status,
+			RES_DATA[RES_LEN-1] = CheckBCC(RES_LEN, RES_DATA);
+					
+			SendAckData(RES_LEN,RES_DATA);
 			
-			SendAckData(RES_DATA);
 		}else{
 			
 		Timer4_Count++;

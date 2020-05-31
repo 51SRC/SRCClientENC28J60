@@ -36,6 +36,11 @@ void App_TCP_Bag(void);
 void App_Bag(U8 Index,U8 xdata *p,U16 len);
 
 
-void SendAckData(unsigned char *RES_DATA);
+void SendAckData(U8 len, unsigned char *RES_DATA);
+unsigned char CheckBCC(unsigned char len, unsigned char *recv);
 
+extern  unsigned int   Timer4_Count;
+sbit Buzzer    =  P5 ^ 4;           	// ·äÃùÆ÷
+sbit LED      =  P3 ^ 2;         		  // LEDµÆ
+//U8 xdata SRCCID[17] = {"SRC00000000000001"};
 #endif 

@@ -15,7 +15,7 @@
 //	sbit RS485_1=P3^4;	//老卡
 //	sbit RS485_1=P3^3;	//温湿度卡
 #endif
-#define BAUD1 9600		//串口1波特率，即每秒发送BAUD个位，如果两串口都用独立波特率发生器，则波特率要设成一致
+#define BAUD1 115200		//串口1波特率，即每秒发送BAUD个位，如果两串口都用独立波特率发生器，则波特率要设成一致
 #define UART1_NONS 1	//异步发送，与同步发送二者选其一
 #define UART1_SEND 0	//同步发送，两个同时为1，为异步发送
 #define UART1_RECV 0	//允许接收
