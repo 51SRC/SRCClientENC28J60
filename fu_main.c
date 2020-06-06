@@ -25,16 +25,14 @@
 /*********************************************************************/
 
 
-unsigned char RES_DATA[]= { 0X23, 0X23, 0X02, 0XFE, 0x53, 0x52, 0x43, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x32, 0x01, 0x00, 0x0B, 0x14, 0x05, 0x18, 0x15, 0x24, 0x38, 0x02, 0X23, 0X24, 0X02, 0X02, 0xB0};
-unsigned char RES_LEN= 36;
 
-//U8 SRCCID[] = {"SRC00000000000001"};// 0x52, 0x43, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x31
 
-void Timer4Init(void)		//5毫秒@11.0592MHz
+
+void Timer4Init(void)		//50毫秒@11.0592MHz
 {
-	T4T3M |= 0x20;		//定时器时钟1T模式
+	T4T3M &= 0xDF;		//定时器时钟12T模式
 	T4L = 0x00;		//设置定时初值
-	T4H = 0x28;		//设置定时初值
+	T4H = 0x4C;		//设置定时初值
 	T4T3M |= 0x80;		//定时器4开始计时
 		IE2 |= 0x40;		//开定时器4中断
 		EA=1; 	//总中断开启
@@ -44,20 +42,23 @@ void Timer4Init(void)		//5毫秒@11.0592MHz
 //中断服务程序
 void Timer4_interrupt() interrupt 20           //中断入口
 {
-		
-		if(Timer4_Count>=2000){
+		unsigned char RES_DATA[]= { 0X23, 0X23, 0X10, 0X02, 0XFE, 0x53, 0x52, 0x43, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x31, 0x01, 0x00, 0x0B, 0x14, 0x05, 0x18, 0x15, 0x24, 0x38, 0x02, 0X23, 0X24, 0X02, 0X02, 0xB0};
+unsigned char RES_LEN= 37;
+
+		if(Timer4_Count>=200){
 			
-				
+				      U8 xdata SRCCID[] = {"SRC00000000000001"};
+
 			unsigned char  light_status = LED ? 0x02 : 0x01;
 			unsigned char buzzy_status = Buzzer ? 0x02 : 0x01;
-		unsigned char j = 4;
+		unsigned char j = 5;
+					Timer4_Count = 1;
+
+
+			for(j=5;j<=22;j++){
+				RES_DATA[j] = SRCCID[j-5];
+			}	
 		
-//			U8 *SRCCID = "SRC00000000000001";
-//		for(j=4;j<=21;j++){
-//			RES_DATA[j] = SRCCID[j-4];
-//		}		
-		
-			Timer4_Count = 1;
 			
 
 			if(DATA_Temphui[2]==1)
@@ -66,13 +67,14 @@ void Timer4_interrupt() interrupt 20           //中断入口
 					
 			}
 
-			RES_DATA[31] = DATA_Temphui[0];
-			RES_DATA[32] = 	DATA_Temphui[1];
-			RES_DATA[33] = light_status;
-			RES_DATA[34] = buzzy_status,
+				RES_DATA[32] = DATA_Temphui[0];
+			RES_DATA[33] = 	DATA_Temphui[1];
+			RES_DATA[34] = light_status;
+			RES_DATA[35] = buzzy_status,
 			RES_DATA[RES_LEN-1] = CheckBCC(RES_LEN, RES_DATA);
 					
 			SendAckData(RES_LEN,RES_DATA);
+			
 			
 		}else{
 			
