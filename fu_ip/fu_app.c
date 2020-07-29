@@ -127,6 +127,8 @@ void ResponseData(unsigned char len,unsigned char *RES_DATA) {
 			 
 		 }else if(dataCmdFlag ==0x8002){//实时信息主动上报
 			 
+			 
+			 
 		 }else if(dataCmdFlag ==0x8003){//补发
 			 
 		 }else if(dataCmdFlag ==0x8004){//设备登出
@@ -142,7 +144,7 @@ void ResponseData(unsigned char len,unsigned char *RES_DATA) {
 					unsigned char dslen =37;
 				
 					 	ds[2] = 0X10;
-					ds[3] = 0X02;
+					ds[3] = 0X06;
 						if(dataCmdAck == 0xFE){
 						ds[4] = 0x01;//成功
 						
@@ -162,6 +164,7 @@ void ResponseData(unsigned char len,unsigned char *RES_DATA) {
 				 			 
 					 unsigned char light = RES_DATA[32];
 					 unsigned char buzzy = RES_DATA[33];
+					 
 			 
 					 if( light==0x02){
 							Led_Actions_Status(0);
@@ -175,7 +178,7 @@ void ResponseData(unsigned char len,unsigned char *RES_DATA) {
 							Buzzer_Actions_Status(1);
 					 }
 					 		RES_DATA[2] = 0X10;
-					RES_DATA[3] = 0X02;
+					RES_DATA[3] = 0X06;
 
 					if(dataCmdAck == 0xFE){
 						RES_DATA[4] = 0x01;//成功
